@@ -25,7 +25,7 @@ SECRET_KEY = '#bkfs7&h5=or2*)wnu+ul7ikdr5m(h5$*xf$+y$z@b(5y8m*&2'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*',]
 
 
 # Application definition
@@ -37,6 +37,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'accounts.apps.AccountsConfig',
+    'apk_manage.apps.ApkManageConfig',
+    'guardian',
+    'rest_framework',
+    'rest_framework.authtoken',
+
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -119,3 +125,54 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
 STATIC_URL = '/static/'
+
+
+AUTH_USER_MODEL = 'accounts.MyUser'
+
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend', # default
+    'guardian.backends.ObjectPermissionBackend',
+)
+
+# REST Framework 相关设置
+# 其设置 全为 “全局设置”
+# -----------------------
+
+REST_FRAMEWORK = {
+
+    #设置认证方式 为 rest 的token认证
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+    ),
+
+    '''
+    # 设置过滤器 为 rest 的过滤器
+    'DEFAULT_FILTER_BACKENDS': ('rest_framework.filters.DjangoFilterBackend',)
+    '''
+
+    # 设置按用户和匿名用户限流
+    'DEFAULT_THROTTLE_CLASSES': (
+        'rest_framework.throttling.AnonRateThrottle',
+        'rest_framework.throttling.UserRateThrottle',
+    ),
+    'DEFAULT_THROTTLE_RATES': {
+        'anon': '1000/day',
+        'user': '100/day',
+    },
+
+    # 增加分页
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10,
+        
+    # 设置按作用域限流
+    'DEFAULT_THROTTLE_CLASSES': (
+        'rest_framework.throttling.ScopedRateThrottle',
+    ),
+    'DEFAULT_THROTTLE_RATES': {
+    'user': '1000/day',
+    'systemuserprofile': '1000/day',
+    'userprofile': '1000/day',
+    }
+
+}
+
