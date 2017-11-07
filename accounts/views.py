@@ -41,7 +41,6 @@ from accounts.permissions import IsOwnerOrReadOnlyOrCreate, IsAuthenticatedOrRea
 
 # User 的 过滤器
 # --------------
-
 class UserFilter(filters.FilterSet):
     """
     [FieldFilter] URL 格式为： http://www.zhuiyinggu.com:33333/accounts/users/?name=huiyu&phone=18612113772
@@ -54,7 +53,6 @@ class UserFilter(filters.FilterSet):
 
 # 获取所有的 MyUser
 # -----------------
-
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
@@ -128,7 +126,6 @@ class UserViewSet(viewsets.ModelViewSet):
 
 # SystemUserProfile 的 过滤器
 # ---------------------------
-
 class SystemUserProfileFilter(filters.FilterSet):
     """
     [FieldFilter] URL 格式为： http://www.zhuiyinggu.com:33333/accounts/systemuserprofile/?user__name=huiyu&user__phone=18612113772
@@ -147,7 +144,6 @@ class SystemUserProfileFilter(filters.FilterSet):
 
 # 获取所有的 SystemUserProfile
 # ----------------------------
-
 class SystemUserProfileViewSet(viewsets.ModelViewSet):
     queryset = SystemUserProfile.objects.all()
     serializer_class = SystemUserProfileSerializer
@@ -232,7 +228,6 @@ class SystemUserProfileViewSet(viewsets.ModelViewSet):
 
 # UserProfile 的 过滤器
 # ---------------------
-
 class UserProfileFilter(filters.FilterSet):
     """
     [FieldFilter] URL 格式为： http://www.zhuiyinggu.com:33333/accounts/userprofile/?user__name=huiyu&user__phone=18612113772
@@ -252,7 +247,6 @@ class UserProfileFilter(filters.FilterSet):
 
 # 获取所有的User和其下的 SystemUserProfile
 # ----------------------------------------
-
 class UserProfileViewSet(viewsets.ModelViewSet):
     queryset = UserProfile.objects.all()
     serializer_class = UserProfileSerializer
@@ -337,7 +331,6 @@ class UserProfileViewSet(viewsets.ModelViewSet):
 
 # Token 获取 
 # ----------
-
 class GetToken(APIView):
     
             

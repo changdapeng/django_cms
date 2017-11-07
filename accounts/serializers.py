@@ -27,7 +27,6 @@ from accounts.models import SystemUserProfile, UserProfile
 
 # User 序列化器
 # ---------------
-
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     url = serializers.HyperlinkedIdentityField(view_name='user-detail', lookup_field='pk')
     
@@ -67,8 +66,7 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
 
 
 # SystemUserProfile 序列化器  
-# --------------------------
-      
+# -------------------------- 
 class SystemUserProfileSerializer(serializers.HyperlinkedModelSerializer):
     url = serializers.HyperlinkedIdentityField(view_name='systemuserprofile-detail', lookup_field='nickname')
     user = UserSerializer(required=False) #嵌套UserSerializer()序列化器
@@ -117,7 +115,6 @@ class SystemUserProfileSerializer(serializers.HyperlinkedModelSerializer):
             
 # UserProfile 序列化器
 # --------------------
-
 class UserProfileSerializer(serializers.HyperlinkedModelSerializer):
     url = serializers.HyperlinkedIdentityField(view_name='userprofile-detail', lookup_field='nickname')
     user = UserSerializer(required=False) #嵌套UserSerializer()序列化器

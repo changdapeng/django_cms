@@ -20,7 +20,6 @@ COMMON_USER = 'common_user' #普通 用户
 
 # MyUser模型管理器
 #-----------------
-
 class MyUserManager(BaseUserManager):
     def create_user(self, email, name, phone, unid, password=None):
         """
@@ -61,7 +60,6 @@ class MyUserManager(BaseUserManager):
 
 # 自定义用户类
 #-------------
-
 class MyUser(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(
         verbose_name='email address',
@@ -102,7 +100,6 @@ class MyUser(AbstractBaseUser, PermissionsMixin):
         
 # 后台管理员用户
 #---------------
-
 class SystemUserProfile(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='systemuser')
     nickname = models.CharField(max_length=20, unique=True)
@@ -115,7 +112,6 @@ class SystemUserProfile(models.Model):
 
 # 前台普通用户
 #-------------
-
 class UserProfile(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='user')
     nickname = models.CharField(max_length=20, unique=True)
