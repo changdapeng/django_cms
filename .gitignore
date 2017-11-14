@@ -3,4 +3,3 @@
 db.sqlite3
 uwsgi.log
 uwsgi.pid
-my.cnf
