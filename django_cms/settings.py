@@ -81,12 +81,34 @@ WSGI_APPLICATION = 'django_cms.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
 
+
+"""
+# 使用默认的SQlite数据库
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
+"""
+
+# 使用MySQL数据库
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'init_command': 'SET storage_engine=INNODB',
+        'OPTIONS': {
+            'read_default_file': '/root/python_project/django_cms/my.cnf',
+#	    'NAME':'django_cms',
+#	    'USER': 'root',
+#	    'PASSWORD': 'root2017root0401',
+#	    'HOST':'127.0.0.1',
+#	    'PORT':'3306',
+        },
+    }
+}
+
+
 
 
 # Password validation
@@ -119,7 +141,9 @@ USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+# 修改数据库是MySQL时，配置为False
+#USE_TZ = True
+USE_TZ = False
 
 
 # Static files (CSS, JavaScript, Images)
