@@ -21,6 +21,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^accounts/', include('accounts.urls')),
     url(r'^apk/', include('apk_manage.urls')),
+    url(r'^blog/', include('blog.urls')),
 
 ]
 

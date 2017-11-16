@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'accounts.apps.AccountsConfig',
+    'blog.apps.BlogConfig',
     'apk_manage.apps.ApkManageConfig',
     'guardian',
     'rest_framework',
@@ -99,11 +100,6 @@ DATABASES = {
         'init_command': 'SET storage_engine=INNODB',
         'OPTIONS': {
             'read_default_file': '/root/python_project/django_cms/my.cnf',
-#	    'NAME':'django_cms',
-#	    'USER': 'root',
-#	    'PASSWORD': 'root2017root0401',
-#	    'HOST':'127.0.0.1',
-#	    'PORT':'3306',
         },
     }
 }

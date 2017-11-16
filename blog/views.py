@@ -1,5 +1,5 @@
 """
-apk_manage/views.py
+blog/views.py
 
 基于Django框架、guardian框架、REST Framework框架，实现RESTful风格接口。
 
@@ -7,6 +7,7 @@ apk_manage/views.py
 
 支持 用户认证、权限控制、过滤器、限流器、分页。
 """
+
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.views.generic import View
@@ -28,57 +29,57 @@ from rest_framework.authtoken.models import Token
 from guardian.models import UserObjectPermission
 from guardian.shortcuts import assign_perm, get_perms 
 
-from apk_manage.permissions import IsSystemUserOrReadOnly, IsAuthenticatedOrReadOnly, ReadOnly
-from apk_manage.models import ApkVersion
-from apk_manage.serializers import ApkVersionSerializer
+from blog.permissions import IsSystemUserOrReadOnly, IsAuthenticatedOrReadOnly, ReadOnly
+from blog.models import Blog
+from blog.serializers import BlogSerializer
 
 
 
-# ApkVersion 过滤器
+# Blog 过滤器
 # ------------------
-
-class ApkVersionFilter(filters.FilterSet):
+class BlogFilter(filters.FilterSet):
     """
-    过滤的字段为 name，用于为不同的apk实现不同的接口。
+    过滤的字段为 title，用于为不同的blog实现不同的接口。
     
-    [FieldFilter] URL 格式为： http://www.zhuiyinggu.com:33333/apk/apk_version/?name=Face2Face
+    [FieldFilter] URL 格式为： http://www.zhuiyinggu.com:33333/blog/blog/?title=myblog
     """
     
     class Meta:
-        model = ApkVersion
-        fields = ['name',]
+        model = Blog
+        fields = ['title',]
 
 
 # ApkVersion 版本控制
 # ------------------
-
-class ApkVersionViewSet(viewsets.ModelViewSet):
+class BlogViewSet(viewsets.ModelViewSet):
     """
-    用于进行 apk的版本控制。
+    用于进行blog控制。
     对应 ApkVersion 模型，通过过滤器对不同的软件提供不同的接口。
     提供返回某一apk的版本，或者返回某一apk的最新版本。
     只有systemuser可以增加、修改、删除apk版本信息。
     其他普通用户和未登录用户只有查看权限。   
     """
-    queryset = ApkVersion.objects.all()
-    serializer_class = ApkVersionSerializer
+    queryset = Blog.objects.all()
+    serializer_class = BlogSerializer
     #lookup_field = 'name'
-     
+   
+
     permission_classes = (IsAuthenticatedOrReadOnly, IsSystemUserOrReadOnly, )    
     
     filter_backends = (filters.OrderingFilter, filters.DjangoFilterBackend,)
     
-    filter_class = ApkVersionFilter
+    filter_class = BlogFilter
         
-    ordering_fields = ('name', 'version',) 
-    ordering = ('name', '-version',) 
-             
-    
+    ordering_fields = ('title', 'subtitle', 'author',) 
+    ordering = ('title',) 
+
+
+
     @list_route(methods=['GET'], permission_classes=[ReadOnly], url_path='newest')
-    def newest_apk(self, request, *args, **kwargs):
+    def newest_blog(self, request, *args, **kwargs):
         """
-        自定义GET方法，以只读的方式，返回最新的 ApkVersion
-        URL: http://www.zhuiyinggu.com:33333/apk/apk_version/newest/
+        自定义GET方法，以只读的方式，返回最新的 Blog
+        URL: http://www.zhuiyinggu.com:33333/blog/blog/newest/
         """
         queryset = self.filter_queryset(self.get_queryset())
 
@@ -102,4 +103,3 @@ class ApkVersionViewSet(viewsets.ModelViewSet):
         serializer.is_valid(raise_exception=True)
         self.perform_update(serializer)
         return Response(serializer.data)
-
